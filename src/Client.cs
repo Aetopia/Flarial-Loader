@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using Windows.System;
 using System.Threading;
 using System.ComponentModel;
 using System.Security.Principal;
@@ -70,7 +71,7 @@ static class Client
 
         var package = packageManager.FindPackagesForUser(string.Empty, "Microsoft.MinecraftUWP_8wekyb3d8bbwe").FirstOrDefault();
         if (package is null) Marshal.ThrowExceptionForHR(Unmanaged.ERROR_INSTALL_PACKAGE_NOT_FOUND);
-        else if (package.Id.Architecture != Windows.System.ProcessorArchitecture.X64) Marshal.ThrowExceptionForHR(Unmanaged.ERROR_INSTALL_WRONG_PROCESSOR_ARCHITECTURE);
+        else if (package.Id.Architecture != ProcessorArchitecture.X64) Marshal.ThrowExceptionForHR(Unmanaged.ERROR_INSTALL_WRONG_PROCESSOR_ARCHITECTURE);
 
         Marshal.ThrowExceptionForHR(packageDebugSettings.EnableDebugging(package.Id.FullName));
         Marshal.ThrowExceptionForHR(applicationActivationManager.ActivateApplication(package.GetAppListEntries().First().AppUserModelId, null, Unmanaged.AO_NOERRORUI, out var processId));
