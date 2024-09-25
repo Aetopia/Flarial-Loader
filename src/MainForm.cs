@@ -85,8 +85,7 @@ class MainForm : Form
         client.DownloadFileCompleted += (sender, e) =>
         {
             value = null;
-            label2.Text = "Checking...";
-            Invoke(() => { progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
+            Invoke(() => { label2.Text = "Checking..."; progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
         };
 
         Shown += async (sender, e) => await Task.Run(() =>
