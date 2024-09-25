@@ -48,7 +48,7 @@ class MainForm : Form
 
         Label label2 = new()
         {
-            Text = "Checking...",
+            Text = null,
             Width = LogicalToDeviceUnits(275),
             Height = LogicalToDeviceUnits(13),
             Location = new(label1.Location.X, LogicalToDeviceUnits(80)),
@@ -82,11 +82,7 @@ class MainForm : Form
             });
         };
 
-        client.DownloadFileCompleted += (sender, e) =>
-        {
-            value = null;
-            Invoke(() => { label2.Text = "Checking..."; progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
-        };
+        client.DownloadFileCompleted += (sender, e) => value = null; ;
 
         Shown += async (sender, e) => await Task.Run(() =>
         {
@@ -95,6 +91,7 @@ class MainForm : Form
             {
                 Invoke(() => progressBar.Style = ProgressBarStyle.Blocks);
                 client.DownloadFileTaskAsync(content.Url, "Client.dll").Wait();
+                Invoke(() => { label2.Text = null; progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
             }
             Client.Start();
             Close();
