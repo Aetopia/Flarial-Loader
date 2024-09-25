@@ -1,5 +1,5 @@
 # Flarial Loader
-An unofficial minimal injector for Flarial Client.
+An unofficial minimal injector for [Flarial Client](https://github.com/flarialmc).
 
 ## Features
 

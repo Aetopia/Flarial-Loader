@@ -14,8 +14,10 @@ sealed class ApplicationActivationManager : IApplicationActivationManager
 {
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern int ActivateApplication(string appUserModelId, string arguments, int options, out int processId);
+
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern int ActivateForFile(string appUserModelId, nint itemArray, string verb, out int processId);
+
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern int ActivateForProtocol(string appUserModelId, nint itemArray, out int processId);
 }
