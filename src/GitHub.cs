@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
@@ -8,27 +7,20 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-struct Content
-{
-    internal string Url;
-    internal bool Update;
-}
-
 static class GitHub
 {
     static readonly WebClient client = new() { BaseAddress = "https://api.github.com/repos/flarialmc/newcdn/" };
 
     static readonly SHA1 sha = SHA1.Create();
 
-    internal static Content Get(string url, string path)
+    internal static (string Url, bool Update) Get(string url, string path)
     {
         try
         {
             client.Headers[HttpRequestHeader.UserAgent] = "Flarial.Loader";
             using var stream = client.OpenRead($"contents/{url}");
             using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
-            var _ = XElement.Load(reader);
-            return new() { Url = _.Element("download_url").Value, Update = !_.Element("sha").Value.Equals(Hash(path), StringComparison.OrdinalIgnoreCase) };
+            var _ = XElement.Load(reader); return (_.Element("download_url").Value, !_.Element("sha").Value.Equals(Hash(path), StringComparison.OrdinalIgnoreCase));
         }
         catch (Exception _) when (_ is ArgumentNullException || _ is WebException) { return default; }
     }

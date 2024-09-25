@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -88,7 +87,6 @@ class MainForm : Form
             label2.Text = "Checking...";
             Invoke(() => { progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
         };
-
 
         Shown += async (sender, e) => await Task.Run(() =>
         {
