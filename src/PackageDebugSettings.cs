@@ -26,7 +26,7 @@ interface IPackageDebugSettings
 sealed class PackageDebugSettings : IPackageDebugSettings
 {
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern int EnableDebugging(string packageFullName, string debuggerCommandLine, string environment);
+    public extern int EnableDebugging(string packageFullName, string debuggerCommandLine = default, string environment = default);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern int DisableDebugging(string packageFullName);

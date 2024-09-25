@@ -72,7 +72,7 @@ static class Client
         var package = packageManager.FindPackagesForUser(string.Empty, "Microsoft.MinecraftUWP_8wekyb3d8bbwe").FirstOrDefault();
         if (package is null) Marshal.ThrowExceptionForHR(Unmanaged.ERROR_INSTALL_PACKAGE_NOT_FOUND);
 
-        Marshal.ThrowExceptionForHR(packageDebugSettings.EnableDebugging(package.Id.FullName, null, null));
+        Marshal.ThrowExceptionForHR(packageDebugSettings.EnableDebugging(package.Id.FullName));
         Marshal.ThrowExceptionForHR(applicationActivationManager.ActivateApplication(package.GetAppListEntries().First().AppUserModelId, null, Unmanaged.AO_NOERRORUI, out var processId));
         LoadRemoteLibrary(processId, path);
     }
