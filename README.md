@@ -19,6 +19,10 @@ An unofficial minimal injector for [Flarial Client](https://github.com/flarialmc
 
   - Injection is performed directly within the application instead of using a stub dynamic link library.
 
+- UWP App Suspension Prevention
+  
+  - Enables debug mode for Minecraft: Bedrock Edition preventing it from suspending.
+
 ## Usage
 
 - Download the latest release from [GitHub Releases](https://github.com/Aetopia/Flarial.Loader/releases/latest).
