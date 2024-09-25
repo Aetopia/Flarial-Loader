@@ -62,7 +62,6 @@ class MainForm : Form
         client.DownloadProgressChanged += (sender, e) =>
         {
             static string _(float _) { var unit = (int)Math.Log(_, 1024); return $"{_ / Math.Pow(1024, unit):0.00} {(Unit)unit}"; }
-            Thread.Sleep(1000);
             Invoke(() =>
             {
                 if (progressBar.Value != e.ProgressPercentage)
