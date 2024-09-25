@@ -21,7 +21,7 @@ An unofficial minimal injector for Flarial Client.
 
 ## Usage
 
-- Download the latest release from GitHub Releases.
+- Download the latest release from [GitHub Releases](https://github.com/Aetopia/Flarial.Loader/releases/latest).
 
 - Ensure Minecraft: Bedrock Edition is installed.
 
