@@ -5,7 +5,9 @@ using System.Runtime.CompilerServices;
 interface IApplicationActivationManager
 {
     int ActivateApplication(string appUserModelId, string arguments, int options, out int processId);
+   
     int ActivateForFile(string appUserModelId, nint itemArray, string verb, out int processId);
+   
     int ActivateForProtocol(string appUserModelId, nint itemArray, out int processId);
 }
 

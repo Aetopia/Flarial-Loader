@@ -6,19 +6,33 @@ using System.Runtime.InteropServices;
 interface IPackageDebugSettings
 {
     int EnableDebugging(string packageFullName, string debuggerCommandLine, string environment);
+    
     int DisableDebugging(string packageFullName);
+
     int Suspend(string packageFullName);
+    
     int Resume(string packageFullName);
+    
     int TerminateAllProcesses(string packageFullName);
+    
     int SetTargetSessionId(ulong sessionId);
+    
     int EnumerateBackgroundTasks(string packageFullName, nint taskCount, nint taskIds, nint taskNames);
+    
     int ActivateBackgroundTask(nint taskId);
+    
     int StartServicing(string packageFullName);
+    
     int StopServicing(string packageFullName);
+    
     int StartSessionRedirection(string packageFullName, ulong sessionId);
+    
     int StopSessionRedirection(string packageFullName);
+    
     int GetPackageExecutionState(string packageFullName, nint packageExecutionState);
+    
     int RegisterForPackageStateChanges(string packageFullName, nint pPackageExecutionStateChangeNotification, nint pdwCookie);
+    
     int UnregisterForPackageStateChanges(int dwCookie);
 }
 
