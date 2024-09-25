@@ -13,7 +13,7 @@ class MainForm : Form
         {
             var exception = (Exception)e.ExceptionObject;
             while (exception.InnerException != null) exception = exception.InnerException;
-            Unmanaged.ShellMessageBox(hWnd: Handle, lpcText: exception.Message);
+            Unmanaged.ShellMessageBox(hWnd: Handle, lpcText: exception.Message, lpcTitle: Text);
             Environment.Exit(0);
         };
 
