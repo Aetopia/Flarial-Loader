@@ -3,6 +3,7 @@ using System.Net;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Threading;
 
 class MainForm : Form
 {
@@ -56,22 +57,12 @@ class MainForm : Form
         };
         Controls.Add(label2);
 
-        Button button = new()
-        {
-            Text = "Cancel",
-            Width = LogicalToDeviceUnits(75),
-            Height = LogicalToDeviceUnits(23),
-            Location = new(LogicalToDeviceUnits(294), LogicalToDeviceUnits(81)),
-            Margin = default
-        };
-        button.Click += (sender, e) => Close();
-        Controls.Add(button);
-
         using WebClient client = new(); string value = default;
 
         client.DownloadProgressChanged += (sender, e) =>
         {
             static string _(float _) { var unit = (int)Math.Log(_, 1024); return $"{_ / Math.Pow(1024, unit):0.00} {(Unit)unit}"; }
+            Thread.Sleep(1000);
             Invoke(() =>
             {
                 if (progressBar.Value != e.ProgressPercentage)
@@ -82,7 +73,7 @@ class MainForm : Form
             });
         };
 
-        client.DownloadFileCompleted += (sender, e) => value = null; ;
+        client.DownloadFileCompleted += (sender, e) => value = null;
 
         Shown += async (sender, e) => await Task.Run(() =>
         {
