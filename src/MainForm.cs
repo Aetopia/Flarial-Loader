@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,9 +20,9 @@ class MainForm : Form
 
         Font = new("MS Shell Dlg 2", 8);
         Text = "Flarial Loader";
-        MaximizeBox = false;
+        MinimizeBox = MaximizeBox = false;
         FormBorderStyle = FormBorderStyle.FixedDialog;
-        ClientSize = LogicalToDeviceUnits(new System.Drawing.Size(380, 115));
+        ClientSize = LogicalToDeviceUnits(new Size(380, 115));
         StartPosition = FormStartPosition.CenterScreen;
 
         Label label1 = new()

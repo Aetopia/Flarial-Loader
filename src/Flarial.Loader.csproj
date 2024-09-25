@@ -5,6 +5,17 @@
     <LangVersion>latest</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ApplicationManifest>Resources/.manifest</ApplicationManifest>
+    <Optimize>true</Optimize>
+    <PublishRelease>true</PublishRelease>
+
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyTitle>Flarial Loader</AssemblyTitle>
+    <Product>Flarial Loader</Product>
+    <Copyright>Copyright (C) 2024</Copyright>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
   <ItemGroup>
