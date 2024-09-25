@@ -18,7 +18,7 @@ class MainForm : Form
         };
 
         Font = new("MS Shell Dlg 2", 8);
-        Text = "Flarial Client";
+        Text = "Flarial Loader";
         MaximizeBox = false;
         FormBorderStyle = FormBorderStyle.FixedDialog;
         ClientSize = LogicalToDeviceUnits(new System.Drawing.Size(380, 115));
