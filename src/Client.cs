@@ -1,12 +1,11 @@
-using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Threading;
+using System.ComponentModel;
+using System.Security.Principal;
+using System.Security.AccessControl;
 using Windows.Management.Deployment;
+using System.Runtime.InteropServices;
 
 static class Client
 {
