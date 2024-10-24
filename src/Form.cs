@@ -4,17 +4,17 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
-class MainForm : Form
+class Form : System.Windows.Forms.Form
 {
     enum Unit { B, KB, MB, GB }
 
-    internal MainForm()
+    internal Form()
     {
         AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
         {
             var exception = (Exception)e.ExceptionObject;
             while (exception.InnerException != null) exception = exception.InnerException;
-            Unmanaged.ShellMessageBox(hWnd: Handle, lpcText: exception.Message, lpcTitle: Text);
+            Native.ShellMessageBox(hWnd: Handle, lpcText: exception.Message, lpcTitle: Text);
             Environment.Exit(0);
         };
 

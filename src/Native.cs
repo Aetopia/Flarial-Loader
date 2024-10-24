@@ -1,7 +1,7 @@
 using System.Security;
 using System.Runtime.InteropServices;
 
-static class Unmanaged
+static class Native
 {
     internal const int LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800;
 
