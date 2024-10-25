@@ -82,7 +82,7 @@ class Form : System.Windows.Forms.Form
                 client.DownloadFileTaskAsync(content.Url, "Client.dll").Wait();
                 Invoke(() => { label2.Text = null; progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
             }
-            Invoke(() => label2.Text = "Injecting...");
+            Invoke(() => label2.Text = "Waiting...");
             Client.Start();
             Close();
         });
