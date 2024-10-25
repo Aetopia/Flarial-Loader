@@ -48,7 +48,7 @@ class Form : System.Windows.Forms.Form
 
         Label label2 = new()
         {
-            Text = null,
+            Text = "Checking...",
             Width = LogicalToDeviceUnits(275),
             Height = LogicalToDeviceUnits(13),
             Location = new(label1.Location.X, LogicalToDeviceUnits(80)),
@@ -82,6 +82,7 @@ class Form : System.Windows.Forms.Form
                 client.DownloadFileTaskAsync(content.Url, "Client.dll").Wait();
                 Invoke(() => { label2.Text = null; progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
             }
+            Invoke(() => label2.Text = "Injecting...");
             Client.Start();
             Close();
         });
