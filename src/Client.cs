@@ -68,14 +68,14 @@ static class Client
         }
     }
 
-    internal static void Start()
+    internal static void Start(string path)
     {
-        var path = Path.GetFullPath("Client.dll"); SetAccessControl(path);
+        SetAccessControl(path = Path.GetFullPath(path));
 
         var package = packageManager.FindPackagesForUser(string.Empty, "Microsoft.MinecraftUWP_8wekyb3d8bbwe").FirstOrDefault();
         if (package is null) Marshal.ThrowExceptionForHR(Native.ERROR_INSTALL_PACKAGE_NOT_FOUND);
         else if (package.Id.Architecture != ProcessorArchitecture.X64) Marshal.ThrowExceptionForHR(Native.ERROR_INSTALL_WRONG_PROCESSOR_ARCHITECTURE);
-      
+
         LoadRemoteLibrary(package.Activate(), path);
     }
 
@@ -83,14 +83,12 @@ static class Client
     {
         Marshal.ThrowExceptionForHR(packageDebugSettings.EnableDebugging(package.Id.FullName, default, default));
         Marshal.ThrowExceptionForHR(packageDebugSettings.GetPackageExecutionState(package.Id.FullName, out var packageExecutionState));
+        var path = ApplicationDataManager.CreateForPackageFamily(package.Id.FamilyName).LocalFolder.Path;
 
-        using ManualResetEventSlim @event = new(packageExecutionState is not PackageExecutionState.Unknown or PackageExecutionState.Terminated);
-        using FileSystemWatcher watcher = new(ApplicationDataManager.CreateForPackageFamily(package.Id.FamilyName).LocalFolder.Path)
-        {
-            NotifyFilter = NotifyFilters.FileName,
-            IncludeSubdirectories = true,
-            EnableRaisingEvents = true
-        };
+        var state = packageExecutionState is not PackageExecutionState.Unknown or PackageExecutionState.Terminated;
+        if (state) state = !File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock"));
+
+        using ManualResetEventSlim @event = new(state); using FileSystemWatcher watcher = new(path) { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
         watcher.Deleted += (_, e) => { if (e.Name.Equals(@"games\com.mojang\minecraftpe\resource_init_lock", StringComparison.OrdinalIgnoreCase)) @event.Set(); };
 
         Marshal.ThrowExceptionForHR(applicationActivationManager.ActivateApplication(package.GetAppListEntries().First().AppUserModelId, null, Native.AO_NOERRORUI, out var processId));

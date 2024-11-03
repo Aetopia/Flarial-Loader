@@ -83,7 +83,7 @@ class Form : System.Windows.Forms.Form
                 Invoke(() => { label2.Text = null; progressBar.Style = ProgressBarStyle.Marquee; progressBar.Value = 0; });
             }
             Invoke(() => label2.Text = "Waiting...");
-            Client.Start();
+            Client.Start("Client.dll");
             Close();
         });
     }
