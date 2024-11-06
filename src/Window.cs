@@ -1,5 +1,5 @@
-using System;
 using System.Net;
+using Minecraft.UWP;
 using System.Windows;
 using System.Windows.Interop;
 using System.Threading.Tasks;
@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
-using Minecraft.UWP;
 
 sealed class Window : System.Windows.Window
 {
