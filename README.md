@@ -19,9 +19,11 @@ An unofficial minimal injector for [Flarial Client](https://github.com/flarialmc
 
   - Injection is performed directly within the application instead of using a stub dynamic link library.
 
-- [UWP App Suspension Prevention.](https://bugs.mojang.com/browse/MCPE-109879)
-  
-  - Enables debug mode for Minecraft: Bedrock Edition preventing it from suspending.
+- Game Initialization Detection.
+
+  - The program properly waits for the game to initialize by keeping track of `resource_init_lock`.
+
+    - This mechanism avoids the need to poll for the loaded module count.
 
 ## Usage
 
