@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Reflection;
 using System.Windows.Media.Imaging;
+using System.Runtime.InteropServices;
+using Minecraft.UWP;
 
 sealed class Window : System.Windows.Window
 {
+    [DllImport("Shell32", CharSet = CharSet.Auto, SetLastError = true), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int ShellMessageBox(nint hAppInst = default, nint hWnd = default, string lpcText = default, string lpcTitle = default, int fuStyle = 0x00000010);
+
     enum Unit { B, KB, MB, GB }
+
     internal Window()
     {
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(".ico");
@@ -35,39 +41,26 @@ sealed class Window : System.Windows.Window
          {
              e.Handled = true; var exception = e.Exception;
              while (exception.InnerException is not null) exception = exception.InnerException;
-             Native.ShellMessageBox(hWnd: new WindowInteropHelper(this).Handle, lpcText: exception.Message);
+             ShellMessageBox(hWnd: new WindowInteropHelper(this).Handle, lpcText: exception.Message);
              Close();
          };
 
-        using WebClient client = new(); string value = default;
-
-        client.DownloadProgressChanged += (sender, e) =>
+        using WebClient client = new();
+        client.DownloadProgressChanged += (sender, e) => Dispatcher.Invoke(() =>
         {
-            static string _(float _) { var unit = (int)Math.Log(_, 1024); return $"{_ / Math.Pow(1024, unit):0.00} {(Unit)unit}"; }
-            Dispatcher.Invoke(() =>
-             {
-                 if (bar.Value != e.ProgressPercentage)
-                 {
-                     bar.Value = e.ProgressPercentage;
-                     block2.Text = $"Downloading {_(e.BytesReceived)} / {value ??= _(e.TotalBytesToReceive)}";
-                 }
-             });
-        };
-
-        client.DownloadFileCompleted += (sender, e) => value = null;
+            if (bar.Value != e.ProgressPercentage)
+                bar.Value = e.ProgressPercentage;
+        });
 
         ContentRendered += async (_, _) => await Task.Run(() =>
         {
-            var (Url, Update) = GitHub.Get("dll/latest.dll", "Flarial.Client.dll");
-            if (Update)
+            var (Url, Update) = GitHub.Get("dll/latest.dll", "Flarial.Client.dll"); if (Update)
             {
-                Dispatcher.Invoke(() => bar.IsIndeterminate = false);
-                client.DownloadFileTaskAsync(Url, "Flarial.Client.dll").Wait();
+                Dispatcher.Invoke(() => { block2.Text = "Downloading..."; bar.IsIndeterminate = false; });
+                client.DownloadFileTaskAsync(Url, "Flarial.Client.dll").GetAwaiter().GetResult();
                 Dispatcher.Invoke(() => { block2.Text = null; bar.IsIndeterminate = true; bar.Value = 0; });
             }
-            Dispatcher.Invoke(() => block2.Text = "Waiting...");
-            Client.Start("Flarial.Client.dll");
-            Dispatcher.Invoke(Close);
+            Dispatcher.Invoke(() => block2.Text = "Waiting..."); Game.Launch("Flarial.Client.dll"); Dispatcher.Invoke(Close);
         });
     }
 }

@@ -7,7 +7,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Optimize>true</Optimize>
     <PublishRelease>true</PublishRelease>
-    <PlatformTarget>x64</PlatformTarget>
+    <NoWarn>IDE0130</NoWarn>
 
     <ApplicationManifest>Resources/.manifest</ApplicationManifest>
     <ApplicationIcon>Resources/.ico</ApplicationIcon>

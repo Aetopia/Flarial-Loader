@@ -17,9 +17,8 @@ static class GitHub
     {
         try
         {
-            client.Headers[HttpRequestHeader.UserAgent] = "Flarial.Loader";
-            using var stream = client.OpenRead($"contents/{url}");
-            using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
+            client.Headers.Add(HttpRequestHeader.UserAgent, "Flarial.Loader");
+            using var stream = client.OpenRead($"contents/{url}"); using var reader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
             var _ = XElement.Load(reader); return (_.Element("download_url").Value, !_.Element("sha").Value.Equals(Hash(path), StringComparison.OrdinalIgnoreCase));
         }
         catch (Exception _) when (_ is ArgumentNullException || _ is WebException) { return default; }
