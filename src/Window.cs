@@ -22,6 +22,7 @@ sealed class Window : System.Windows.Window
         Icon = BitmapFrame.Create(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
         UseLayoutRounding = true;
         Title = "Flarial Loader";
+        Topmost = true;
         ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         SizeToContent = SizeToContent.WidthAndHeight;

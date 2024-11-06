@@ -81,11 +81,11 @@ static class Game
         LoadLibrary(package.Launch(), path);
     }
 
-    static int Launch(this Package package)
+    static int Launch(this Package source)
     {
-        Marshal.ThrowExceptionForHR(PackageDebugSettings.EnableDebugging(package.Id.FullName, default, default));
-        Marshal.ThrowExceptionForHR(PackageDebugSettings.GetPackageExecutionState(package.Id.FullName, out var packageExecutionState));
-        var path = ApplicationDataManager.CreateForPackageFamily(package.Id.FamilyName).LocalFolder.Path;
+        Marshal.ThrowExceptionForHR(PackageDebugSettings.EnableDebugging(source.Id.FullName, default, default));
+        Marshal.ThrowExceptionForHR(PackageDebugSettings.GetPackageExecutionState(source.Id.FullName, out var packageExecutionState));
+        var path = ApplicationDataManager.CreateForPackageFamily(source.Id.FamilyName).LocalFolder.Path;
 
         var state = packageExecutionState is not PackageExecutionState.Unknown or PackageExecutionState.Terminated;
         if (state) state = !File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock"));
@@ -93,7 +93,7 @@ static class Game
         using ManualResetEventSlim @event = new(state); using FileSystemWatcher watcher = new(path) { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
         watcher.Deleted += (_, e) => { if (e.Name.Equals(@"games\com.mojang\minecraftpe\resource_init_lock", StringComparison.OrdinalIgnoreCase)) @event.Set(); };
 
-        Marshal.ThrowExceptionForHR(ApplicationActivationManager.ActivateApplication(package.GetAppListEntries().First().AppUserModelId, null, AO_NOERRORUI, out var processId));
+        Marshal.ThrowExceptionForHR(ApplicationActivationManager.ActivateApplication(source.GetAppListEntries().First().AppUserModelId, null, AO_NOERRORUI, out var processId));
         @event.Wait(); return processId;
     }
 }
