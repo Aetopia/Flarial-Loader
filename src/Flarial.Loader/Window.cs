@@ -53,7 +53,7 @@ sealed class Window : System.Windows.Window
 
         ContentRendered += async (_, _) => await Task.Run(() =>
         {
-            var (Url, Update) = GitHub.Get("dll/beta.dll", "Flarial.Client.dll"); if (Update)
+            var (Url, Update) = GitHub.Get("dll/latest.dll", "Flarial.Client.dll"); if (Update)
             {
                 Dispatcher.Invoke(() => { block2.Text = "Downloading..."; bar.IsIndeterminate = false; });
                 client.DownloadFileTaskAsync(Url, "Flarial.Client.dll").GetAwaiter().GetResult();
