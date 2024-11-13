@@ -1,4 +1,4 @@
-namespace Minecraft.UWP;
+namespace Minecraft;
 
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;

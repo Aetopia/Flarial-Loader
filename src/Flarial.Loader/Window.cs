@@ -1,5 +1,5 @@
+using Minecraft;
 using System.Net;
-using Minecraft.UWP;
 using System.Windows;
 using System.Windows.Interop;
 using System.Threading.Tasks;
@@ -60,7 +60,9 @@ sealed class Window : System.Windows.Window
                 client.DownloadFileTaskAsync(Url, "Flarial.Client.dll").GetAwaiter().GetResult();
                 Dispatcher.Invoke(() => { block2.Text = null; bar.IsIndeterminate = true; bar.Value = 0; });
             }
-            Dispatcher.Invoke(() => block2.Text = "Waiting..."); Game.Launch("Flarial.Client.dll"); Dispatcher.Invoke(Close);
+            Dispatcher.Invoke(() => block2.Text = "Waiting...");
+            Injector.Inject(Game.Launch(), "Flarial.Client.dll");
+            Dispatcher.Invoke(Close);
         });
     }
 }
