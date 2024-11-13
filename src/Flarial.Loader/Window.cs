@@ -21,7 +21,6 @@ sealed class Window : System.Windows.Window
         Icon = BitmapFrame.Create(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
         UseLayoutRounding = true;
         Title = "Flarial Loader";
-        Topmost = true;
         ResizeMode = ResizeMode.NoResize;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         SizeToContent = SizeToContent.WidthAndHeight;
@@ -41,7 +40,7 @@ sealed class Window : System.Windows.Window
          {
              e.Handled = true; var exception = e.Exception;
              while (exception.InnerException is not null) exception = exception.InnerException;
-             ShellMessageBox(hWnd: new WindowInteropHelper(this).Handle, lpcText: exception.Message);
+             ShellMessageBox(hWnd: new WindowInteropHelper(this).Handle, lpcTitle: "Flarial Loader", lpcText: exception.Message);
              Close();
          };
 
@@ -54,7 +53,7 @@ sealed class Window : System.Windows.Window
 
         ContentRendered += async (_, _) => await Task.Run(() =>
         {
-            var (Url, Update) = GitHub.Get("dll/latest.dll", "Flarial.Client.dll"); if (Update)
+            var (Url, Update) = GitHub.Get("dll/beta.dll", "Flarial.Client.dll"); if (Update)
             {
                 Dispatcher.Invoke(() => { block2.Text = "Downloading..."; bar.IsIndeterminate = false; });
                 client.DownloadFileTaskAsync(Url, "Flarial.Client.dll").GetAwaiter().GetResult();
