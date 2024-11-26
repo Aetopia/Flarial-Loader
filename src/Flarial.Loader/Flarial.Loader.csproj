@@ -11,8 +11,9 @@
 
     <ApplicationManifest>Resources/.manifest</ApplicationManifest>
     <ApplicationIcon>Resources/.ico</ApplicationIcon>
-
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    
+    <DebugType>none</DebugType>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <AssemblyTitle>Flarial Loader</AssemblyTitle>
     <Product>Flarial Loader</Product>
     <Copyright>Copyright (C) 2024</Copyright>
@@ -22,9 +23,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.2" />
     <EmbeddedResource Include="Resources/.ico">
       <LogicalName>.ico</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Flarial.Launcher.SDK/src/Flarial.Launcher.SDK.csproj" />
   </ItemGroup>
 </Project>

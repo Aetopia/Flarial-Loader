@@ -1,4 +1,3 @@
-using Minecraft;
 using System.Net;
 using System.Windows;
 using System.Windows.Interop;
@@ -7,6 +6,7 @@ using System.Windows.Controls;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
+using Flarial.Launcher;
 
 sealed class Window : System.Windows.Window
 {
@@ -37,31 +37,26 @@ sealed class Window : System.Windows.Window
         canvas.Children.Add(bar); Canvas.SetLeft(bar, 11); Canvas.SetTop(bar, 46);
 
         Dispatcher.UnhandledException += (_, e) =>
-         {
-             e.Handled = true; var exception = e.Exception;
-             while (exception.InnerException is not null) exception = exception.InnerException;
-             ShellMessageBox(hWnd: new WindowInteropHelper(this).Handle, lpcTitle: "Flarial Loader", lpcText: exception.Message);
-             Close();
-         };
-
-        using WebClient client = new();
-        client.DownloadProgressChanged += (sender, e) => Dispatcher.Invoke(() =>
         {
-            if (bar.Value != e.ProgressPercentage)
-                bar.Value = e.ProgressPercentage;
-        });
+            e.Handled = true; var exception = e.Exception;
+            while (exception.InnerException is not null) exception = exception.InnerException;
+            ShellMessageBox(hWnd: new WindowInteropHelper(this).Handle, lpcTitle: "Flarial Loader", lpcText: exception.Message);
+            Close();
+        };
 
-        ContentRendered += async (_, _) => await Task.Run(() =>
+        ContentRendered += async (_, _) =>
         {
-            var (Url, Update) = GitHub.Get("dll/latest.dll", "Flarial.Client.dll"); if (Update)
+            await Client.DownloadAsync(action: (_) =>
             {
-                Dispatcher.Invoke(() => { block2.Text = "Downloading..."; bar.IsIndeterminate = false; });
-                client.DownloadFileTaskAsync(Url, "Flarial.Client.dll").GetAwaiter().GetResult();
-                Dispatcher.Invoke(() => { block2.Text = null; bar.IsIndeterminate = true; bar.Value = 0; });
-            }
-            Dispatcher.Invoke(() => block2.Text = "Waiting...");
-            Injector.Inject(Game.Launch(), "Flarial.Client.dll");
-            Dispatcher.Invoke(Close);
-        });
+                if (bar.Value != _)
+                {
+                    if (bar.IsIndeterminate) bar.IsIndeterminate = false;
+                    bar.Value = _;
+                }
+            });
+            bar.Value = 0; bar.IsIndeterminate = true;
+            await Client.LaunchAsync();
+            Close();
+        };
     }
 }

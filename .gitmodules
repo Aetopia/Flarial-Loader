@@ -1,0 +1,4 @@
+[submodule "src/Flarial.Launcher.SDK"]
+	path = src/Flarial.Launcher.SDK
+	url = https://github.com/Aetopia/Flarial.Launcher.SDK
+    branch = main
