@@ -13,7 +13,7 @@
     <ApplicationIcon>Resources/.ico</ApplicationIcon>
     
     <DebugType>none</DebugType>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <AssemblyTitle>Flarial Loader</AssemblyTitle>
     <Product>Flarial Loader</Product>
     <Copyright>Copyright (C) 2024</Copyright>
